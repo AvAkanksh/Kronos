@@ -152,7 +152,7 @@ def plot_full_analysis(historical_df, ground_truth_df, prediction_df, anomalies,
 
     # Plot 2: Volatility Analysis
     ax2.plot(historical_vol.index, historical_vol, label='Historical Volatility', color='blue')
-    ax2.plot(predicted_vol.index, predicted_vol['close'], label='Predicted Volatility', color='orange', linestyle='--')
+    ax2.plot(predicted_vol.index, predicted_vol, label='Predicted Volatility', color='orange', linestyle='--')
     ax2.set_title(f'{VOLATILITY_WINDOW}-Day Rolling Volatility (Annualized)', fontsize=16)
     ax2.set_ylabel('Volatility', fontsize=12)
     ax2.set_xlabel('Date', fontsize=12)
