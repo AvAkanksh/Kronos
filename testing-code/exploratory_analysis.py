@@ -35,7 +35,7 @@ def main():
     # ### 2. Fetch Data using yfinance
     print("\nFetching stock data...")
     ticker = "AAPL"
-    data = yf.download(ticker, start="2020-01-01", end="2023-01-01", interval="1d")
+    data = yf.download(ticker, start="2023-01-01", end="2025-07-01", interval="1d")
 
     # Prepare data for the model
     data = data.rename(columns={
@@ -98,6 +98,7 @@ def plot_prediction(historical_df, ground_truth_df, prediction_df, ticker):
     plt.legend()
     plt.grid(True)
     plt.show()
+    plt.savefig(f"{ticker}_prediction_plot.png")
 
 if __name__ == "__main__":
     main()
