@@ -85,8 +85,11 @@ def main():
     # ### 4. Detect and Visualize Anomalies
     print("\nDetecting and visualizing anomalies...")
     
-    anomalies = y_df_ground_truth[(y_df_ground_truth['close'] > pred_df['upper_bound']) | 
-                                  (y_df_ground_truth['close'] < pred_df['lower_bound'])]
+    # Align dataframes before comparison
+    aligned_ground_truth, aligned_pred_df = y_df_ground_truth.align(pred_df, join='inner', axis=0)
+
+    anomalies = aligned_ground_truth[(aligned_ground_truth['close'] > aligned_pred_df['upper_bound']) | 
+                                     (aligned_ground_truth['close'] < aligned_pred_df['lower_bound'])]
 
     print(f"Found {len(anomalies)} anomalies.")
     if not anomalies.empty:
