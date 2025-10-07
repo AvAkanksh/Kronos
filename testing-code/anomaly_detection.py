@@ -85,11 +85,13 @@ def main():
     # ### 4. Detect and Visualize Anomalies
     print("\nDetecting and visualizing anomalies...")
     
-    # Align dataframes before comparison
-    aligned_ground_truth, aligned_pred_df = y_df_ground_truth.align(pred_df, join='inner', axis=0)
+    # Convert to numpy arrays for robust comparison, bypassing pandas index alignment issues.
+    ground_truth_values = y_df_ground_truth['close'].values
+    upper_bound_values = pred_df['upper_bound'].values
+    lower_bound_values = pred_df['lower_bound'].values
 
-    anomalies = aligned_ground_truth[(aligned_ground_truth['close'] > aligned_pred_df['upper_bound']) | 
-                                     (aligned_ground_truth['close'] < aligned_pred_df['lower_bound'])]
+    anomalies = y_df_ground_truth[(ground_truth_values > upper_bound_values) | 
+                                  (ground_truth_values < lower_bound_values)]
 
     print(f"Found {len(anomalies)} anomalies.")
     if not anomalies.empty:
@@ -112,7 +114,7 @@ def plot_anomaly_detection(historical_df, ground_truth_df, prediction_df, anomal
                      color='red', alpha=0.2, label='95% Confidence Interval')
 
     if not anomalies.empty:
-        plt.scatter(anomalies.index, anomalies['close'], color='purple', s=100, zorder=5, label='Anomaly')
+        plt.scatter(anomalies.index, anomalies['close'], color='purple', s=5, zorder=5, label='Anomaly')
 
     plt.title(f'{ticker} Stock Price Anomaly Detection')
     plt.xlabel('Date')
